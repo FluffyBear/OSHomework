@@ -1,8 +1,8 @@
-all: cat 
+CC = gcc
+SRC = cat.c
+C_FLAGS = -fPIC -L../lib/ -I../lib/ -lhelpers
 
+all: cat
 
-cat: libhelpers.so
-	gcc cat.c -L../lib -I../lib -Wl,-rpath=../lib -lhelpers -o cat
-
-libhelpers.so:
-	make -C ../lib/
+cat:
+	$(CC) -o cat $(C_FLAGS) $(SRC)

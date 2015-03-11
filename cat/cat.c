@@ -1,23 +1,26 @@
-#include "../lib/helpers.h"
 #include <errno.h>
-#include <unistd.h>  
+#include <unistd.h>
+#include <string.h>
+#include <helpers.h> 
          
-int main(int argc, char* argv[]) {
-    char buf[1024];
+int main() {
+    char buf[4096];
     ssize_t read_res = 0;
     ssize_t write_res = 0;
 
-    while(read_res = read_(STDIN_FILENO, buf, sizeof(buf)) > 0) {
+    while(1) {
+	read_res = read_(STDIN_FILENO, buf, sizeof(buf));
+	if (read_res == -1)
+            perror("The following error occurred");
+	    return 1;
+	}
+	    
         write_res = write_(STDOUT_FILENO, buf, read_res);
         if(write_res == -1) {
             perror("The following error occurred");
-            exit(1);
+            return 1;
         }
-   }
-
-   if(read_res == -1) {
-        perror("The following error occurred");
-        exit(1);
-   }
-   return 1;
+	if (rres < sizeof(buf))
+	    return 0;
+   }                
 }
