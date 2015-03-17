@@ -31,5 +31,31 @@ ssize_t write_(int fd, const void *buf, size_t count) {
         total_written += current_written;
 	count -= current_written;
 	buf += current_written;
-    }                    
+    }                 
+
 } 
+ssize_t read_until(int fd, void* buf, size_t count, char delimeter) {
+    int current_read = 0;
+    int total_read = 0;
+    while(1) {
+        current_read = read(fd, buf, count);
+        int i;
+        for(i = 0; i < current_read; i++) {
+            if(((char*) buf)[i] == delimeter) {
+                return total_read + current_read;
+            }
+        }
+        if(current_read == count) {
+            return total_read + current_read;
+        }
+        if(current_read == -1) {
+           return -1;
+        }
+        if(current_read == 0) {
+            return total_read;
+        }
+        total_read += current_read;
+        buf += current_read;
+        count -= total_read;
+    }
+}
